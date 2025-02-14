@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Check Calculator</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <form id="email-form" class="form-container">
+    <div class="form-column">
+      <div class="form-section">
+        <h2>1. Your checks</h2>
+        <p>If you know how long it takes your background checks to complete, add that below, otherwise, we'll use an average.</p>
+        <div class="input-group">
+          <label for="check-time-days">How long (per candidate) does it take to complete background checks?</label>
+          <select id="check-time-days" name="check-time">
+            <option value="">Select</option>
+            <option value="2">1-3 days</option>
+            <option value="7">4-10 days</option>
+            <option value="16">11-20 days</option>
+            <option value="25">20-30 days</option>
+            <option value="35">30+</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Slide to add how many hires you make each month</label>
+          <input type="range" id="num-hires" name="num-hires" min="1" max="300" value="1" step="1" class="slider">
+          <p id="num-hires-output"></p>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>2. Cost of admin time</h2>
+        <p>Time spent on background check admin wastes time that could be spent doing other important tasks.</p>
+        <div class="input-group">
+          <label for="salary">Salary of team member doing background checks?</label>
+          <input type="number" id="salary" name="Salary" placeholder="Yearly salary (£)">
+        </div>
+        <div class="input-group">
+          <label for="admin-time">Time spent on admin per candidate?</label>
+          <select id="admin-time" name="admin-time">
+            <option value="">Admin time per candidate</option>
+            <option value="10">10 min</option>
+            <option value="20">20 mins</option>
+            <option value="30">30 mins</option>
+            <option value="40">40 mins</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+            <option value="240">3+ hours</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-column">
+      <div class="form-section">
+        <h2>3. Check types</h2>
+        <p>Select the checks you currently run on candidates</p>
+        <div class="check-list-container">
+          <div class="check-list" id="check-list">
+            <!-- Checkboxes will be dynamically inserted here -->
+          </div>
+        </div>
+        <a href="#" id="calculate-btn" class="btn">Calculate</a>
+      </div>
+    </div>
+
+    <div id="output" class="output-section">
+      <div id="output-results"></div>
+    </div>
+  </form>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
