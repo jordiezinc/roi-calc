@@ -547,6 +547,13 @@ function sendToGoogleSheet(data) {
 
 function sendEmailToGoogleSheet(uuid, email) {
     const url = "https://script.google.com/macros/s/AKfycbwBqHQVJ-lMX8G5PdaMr3cFbuja267gBAj6colYLgU-PTUnm8aN2ODVkTeoMiUhPspt/exec"; // Replace with your Google Apps Script Web App URL
+    const sendEmailButton = document.getElementById("sendEmailButton");
+    const emailContainer = document.getElementById("emailContainer");
+
+    // Disable button to prevent multiple clicks
+    sendEmailButton.disabled = true;
+    sendEmailButton.textContent = "Sending...";
+
     console.log("📧 Sending email request:", { uuid, email });
 
     fetch(url, {
@@ -557,9 +564,16 @@ function sendEmailToGoogleSheet(uuid, email) {
     .then((response) => response.json())
     .then((responseData) => {
         console.log("✅ Email successfully sent to Google Sheet:", responseData);
-        alert("Your PDF will be sent to your email address.");
+
+        // Replace email input and button with success message
+        emailContainer.innerHTML = `
+            <p style="color: green; font-weight: bold;">✅ Thanks! Check your inbox.</p>
+        `;
     })
     .catch((error) => {
         console.error("❌ Error sending email to Google Sheet:", error);
+        alert("There was an error sending your email. Please try again.");
+        sendEmailButton.disabled = false;
+        sendEmailButton.textContent = "Send PDF";
     });
 }
