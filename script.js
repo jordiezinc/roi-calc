@@ -415,161 +415,151 @@ document.addEventListener("DOMContentLoaded", function () {
     return roiData;
   }
 
-  function displayResults(roiData) {
+ function displayResults(roiData) {
     const output = document.getElementById("output");
     if (output) {
-      output.innerHTML = `
-      <style>
+        output.innerHTML = `
+        <style>
         /* Two-column layout for the info sections */
         .info-sections {
-          display: flex;
-          justify-content: space-between;
-          gap: 2rem;
-          margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
         .info-sections > div {
-          flex: 1;
-          padding: 1rem;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         /* Styling for the CTA section */
         .output-cta-wrapper {
-          text-align: center;
-          margin-top: 2rem;
+            text-align: center;
+            margin-top: 2rem;
         }
         #emailContainer {
-          margin-bottom: 1rem;
+            margin-bottom: 1rem;
         }
         #emailContainer input {
-          padding: 0.5rem;
-          width: 60%;
-          margin-right: 0.5rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
+            padding: 0.5rem;
+            width: 60%;
+            margin-right: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         #buttonContainer button {
-          margin: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        
-        
         .highlight {
-        ;color: #f04da9;
+            color: #f04da9;
         }
-       
-      </style>
-      <div class="info-sections">
-        <div id="timeSavings">
-          <h3>Time savings</h3>
-          You make <strong class="highlight">${
-            roiData.numHires
-          }</strong> hires per month.<br><br>
-          On average, it takes <strong class="highlight">${
-            roiData.checkTimeDays
-          } day${
-        roiData.checkTimeDays === 1 ? "" : "s"
-      }</strong> to complete the checks for each candidate.<br><br>
-          Using Zinc, checks would take <strong class="highlight">${
-            roiData.zincTimePerCandidate
-          }</strong>*.<br>
-          <p style="font-size:0.825rem; font-style:italic; margin-top:2rem;">*estimate based on our average turnaround times.</p>
+        </style>
+        <div class="info-sections">
+            <div id="timeSavings">
+                <h3>Time savings</h3>
+                You make <strong class="highlight">${roiData.numHires}</strong> hires per month.<br><br>
+                On average, it takes <strong class="highlight">${roiData.checkTimeDays} day${roiData.checkTimeDays === 1 ? "" : "s"}</strong> to complete the checks for each candidate.<br><br>
+                Using Zinc, checks would take <strong class="highlight">${roiData.zincTimePerCandidate}</strong>*.<br>
+                <p style="font-size:0.825rem; font-style:italic; margin-top:2rem;">*estimate based on our average turnaround times.</p>
+            </div>
+            <div id="costSavings">
+                <h3>Cost of background checks</h3>
+                Your checks cost: <strong class="highlight">£${formatOutput(roiData.totalCostPerCandidate)}</strong> per candidate which equates to <strong class="highlight">£${formatOutput(roiData.totalCostPerMonth)}</strong> per month.<br><br>
+                For each hire, you spend <strong class="highlight">${roiData.adminTime} minutes</strong> on admin.<br><br>
+                Resulting in a loss of <strong class="highlight">${formatOutput(roiData.lostDays)} working days</strong> monthly due to admin.<br><br>
+                Based on the talent team’s salary, this costs <strong class="highlight">£${formatOutput(roiData.adminCostPerMonth)}</strong> per month.<br><br><br>
+                Total cost of your checks per month, including the cost of admin time, amounts to <strong class="highlight">£${formatOutput(roiData.totalMonthlyCost)}</strong>.
+            </div>
         </div>
-        <div id="costSavings">
-          <h3>Cost of background checks</h3>
-          Your checks cost: <strong class="highlight">£${formatOutput(
-            roiData.totalCostPerCandidate
-          )}</strong> per candidate which equates to <strong class="highlight">£${formatOutput(
-        roiData.totalCostPerMonth
-      )}</strong> per month.<br><br>
-          For each hire, you spend <strong class="highlight">${
-            roiData.adminTime
-          } minutes</strong> on admin.<br><br>
-          Resulting in a loss of <strong class="highlight">${formatOutput(
-            roiData.lostDays
-          )} working days</strong> monthly due to admin.<br><br>
-          Based on the talent team’s salary, this costs <strong class="highlight">£${formatOutput(
-            roiData.adminCostPerMonth
-          )}</strong> per month.<br><br><br>
-          Total cost of your checks per month, including the cost of admin time, amounts to <strong class="highlight">£${formatOutput(
-            roiData.totalMonthlyCost
-          )}</strong>.
-        </div>
-      </div>
-      <div class="output-cta-wrapper">
-        <p>To receive a copy of this report as a PDF please input your email address below.</p>
-        <div id="emailContainer">
-          <input class="form_field-input" type="email" id="userEmail" placeholder="Enter your email">
-          <button class="A-0" id="sendEmailButton">Send PDF</button>
-        </div>
-        <div id="buttonContainer">
-          <button class="button is-link  A-4 " id="recalculateButton" onclick="window.location.reload();">Recalculate</button>
-          <button class="A-0" id="bookCallButton" onclick="window.location.href='https://zincwork.com/demo';">Book a Call</button>
-        </div>
-      </div>
-    `;
-      document
-        .getElementById("sendEmailButton")
-        .addEventListener("click", function () {
-          const userEmail = document.getElementById("userEmail").value;
-          if (userEmail) {
-            sendEmailToGoogleSheet(roiData.uuid, userEmail);
-          } else {
-            alert("Please enter a valid email address.");
-          }
-        });
+        <div class="output-cta-wrapper">
+            <p>To receive a copy of this report as a PDF please input your email address below.</p>
+            <div id="emailContainer">
+                <input class="form_field-input" type="email" id="userEmail" placeholder="Enter your email">
+                <button class="A-0" id="sendEmailButton" type="button">Send PDF</button>
+            </div>
+            <div id="buttonContainer">
+                <button class="button is-link A-4" id="recalculateButton" onclick="window.location.reload();">Recalculate</button>
+                <button class="A-0" id="bookCallButton" onclick="window.location.href='https://zincwork.com/demo';">Book a Call</button>
+            </div>
+        </div>`;
+
+        // Ensure event listener is added AFTER the button exists
+        setTimeout(() => {
+            const sendEmailButton = document.getElementById("sendEmailButton");
+            if (sendEmailButton) {
+                sendEmailButton.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevents page refresh
+
+                    const userEmail = document.getElementById("userEmail").value.trim();
+                    if (userEmail && validateEmail(userEmail)) {
+                        sendEmailToGoogleSheet(roiData.uuid, userEmail);
+                    } else {
+                        alert("Please enter a valid email address.");
+                    }
+                });
+                console.log("✅ sendEmailButton event listener attached.");
+            } else {
+                console.error("❌ sendEmailButton not found in DOM.");
+            }
+        }, 100); // Small delay to ensure button exists
+
     } else {
-      console.error("Output element not found");
+        console.error("❌ Output element not found");
     }
-  }
+}
 
-  function formatOutput(value) {
+// Email validation function
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function formatOutput(value) {
     return Number.isInteger(value) ? value.toString() : value.toFixed(2);
-  }
+}
 
-  function generateUUID() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
+function generateUUID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         var r = (Math.random() * 16) | 0,
-          v = c === "x" ? r : (r & 0x3) | 0x8;
+            v = c === "x" ? r : (r & 0x3) | 0x8;
         return v.toString(16);
-      }
-    );
-  }
+    });
+}
 
-  function sendToGoogleSheet(data) {
-    const url =
-      "https://script.google.com/macros/s/AKfycbwBqHQVJ-lMX8G5PdaMr3cFbuja267gBAj6colYLgU-PTUnm8aN2ODVkTeoMiUhPspt/exec"; // Replace with your Google Apps Script Web App URL
+function sendToGoogleSheet(data) {
+    const url = "https://script.google.com/macros/s/AKfycbwBqHQVJ-lMX8G5PdaMr3cFbuja267gBAj6colYLgU-PTUnm8aN2ODVkTeoMiUhPspt/exec"; // Replace with your Google Apps Script Web App URL
     fetch(url, {
-      method: "POST",
-      body: JSON.stringify(data)
+        method: "POST",
+        headers: { "Content-Type": "application/json" }, // Ensure proper JSON format
+        body: JSON.stringify(data)
     })
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log("Data successfully sent to Google Sheet:", responseData);
-      })
-      .catch((error) => {
-        console.error("Error sending data to Google Sheet:", error);
-      });
-  }
+    .then((response) => response.json())
+    .then((responseData) => {
+        console.log("✅ Data successfully sent to Google Sheet:", responseData);
+    })
+    .catch((error) => {
+        console.error("❌ Error sending data to Google Sheet:", error);
+    });
+}
 
-  function sendEmailToGoogleSheet(uuid, email) {
-    const url =
-      "https://script.google.com/macros/s/AKfycbwBqHQVJ-lMX8G5PdaMr3cFbuja267gBAj6colYLgU-PTUnm8aN2ODVkTeoMiUhPspt/exec"; // Replace with your Google Apps Script Web App URL
+function sendEmailToGoogleSheet(uuid, email) {
+    const url = "https://script.google.com/macros/s/AKfycbwBqHQVJ-lMX8G5PdaMr3cFbuja267gBAj6colYLgU-PTUnm8aN2ODVkTeoMiUhPspt/exec"; // Replace with your Google Apps Script Web App URL
+    console.log("📧 Sending email request:", { uuid, email });
+
     fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ updateEmail: true, uuid: uuid, email: email })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ updateEmail: true, uuid: uuid, email: email })
     })
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log("Email successfully sent to Google Sheet:", responseData);
+    .then((response) => response.json())
+    .then((responseData) => {
+        console.log("✅ Email successfully sent to Google Sheet:", responseData);
         alert("Your PDF will be sent to your email address.");
-      })
-      .catch((error) => {
-        console.error("Error sending email to Google Sheet:", error);
-      });
-  }
-});
+    })
+    .catch((error) => {
+        console.error("❌ Error sending email to Google Sheet:", error);
+    });
+}
